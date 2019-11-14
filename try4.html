@@ -1,0 +1,112 @@
+<!doctype HTML>
+<html>
+<script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+<script src="https://raw.githack.com/jeromeetienne/AR.js/1.7.7/aframe/build/aframe-ar.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.0.1/dist/aframe-extras.min.js"></script>
+<script src="https://rawgit.com/mayognaise/aframe-mouse-cursor-component/master/dist/aframe-mouse-cursor-component.min.js"></script>
+</head>
+<!-- <script src="three/examples/jsm/controls/OrbitControls.js"></script> -->
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body style='margin : 0px; overflow: hidden;'>
+    <a-scene id="garden" style="visibility: hidden ;" look-controls="enabled:false;">
+        <!-- <a-assets>
+            <a-asset-item id="tree" src="./fox/scene.gltf"></a-asset-item>
+        </a-assets>
+        <a-entity gltf-model="#tree" animation-mixer="clip: run_*" position="0 0 -80" rotation="0 45 0" scale="0.5 0.5 0.5"></a-entity> -->
+        <!-- <gltf-model position="0 0 -80" rotation="0 45 0" scale="0.5 0.5 0.5" animation-mixer src="./fox/scene.gltf"></gltf-model> -->-->
+        <!-- <a-entity scale="0.5 0.5 0.5" gltf-model="src: url(./fox/scene.gltf);" animation-mixer="Take 001" position="0 0 -80" rotation="0 45 0" scale="0.5 0.5 0.5"></a-entity> -->
+        <a-assets>
+            <a-asset-item id="bird" response-type="arraybuffer" src="https://cdn.glitch.com/1061d524-9d0f-4b25-97fd-48ebd0fce63c%2Fsceneglb.glb?1546534633849"></a-asset-item>
+        </a-assets>
+        <a-entity gltf-model="#bird" position="0 0 -30" rotation="15 45 30" scale="0.05 0.05 0.05" animation-mixer="clip:Take 001; loop:2; timeScale: 1; crossFadeDuration: 1"></a-entity>
+    </a-scene>
+
+    <script>
+        var output = document.getElementById("demo");
+        var arr = document.getElementById("arr");
+
+        // var options = {
+        //     enableHighAccuracy: true,
+        //     timeout: 5000,
+        //     maximumAge: 0
+        // };
+
+
+        // function success(pos) {
+        //     var crd = pos.coords;
+        //     output.innerHTML = '<p>Latitude is ' + crd.latitude + '° <br>Longitude is ' + crd.longitude + '°</p>';
+        //     console.log(`經度：${crd.latitude}`);
+        //     console.log(`緯度：${crd.longitude}`);
+        //     // console.log(`误差：${crd.accuracy} 米`);
+        // }
+
+        // function error(err) {
+        //     console.warn(`ERROR(${err.code}): ${err.message}`);
+        // }
+
+        // navigator.geolocation.getCurrentPosition(success, error, options);
+
+
+        var id;
+
+        var target = {
+            latitude: 24.1505,
+            latitude2: 24.1400,
+            longitude: 120.6800,
+            longitude2: 120.700
+        };
+
+        var options = {
+            enableHighAccuracy: false,
+            timeout: 5000,
+            maximumAge: 0
+        };
+
+        function success(pos) {
+            var crd = pos.coords;
+            output.innerHTML = 'Latitude is ' + crd.latitude.toFixed(5) + ' <br>Longitude is ' + crd.longitude.toFixed(5) + '';
+            if (target.latitude.toFixed(2) === crd.latitude.toFixed(2) && target.longitude.toFixed(2) === crd.longitude.toFixed(2)) {
+                arr.innerHTML = "你已經達到指定位置";
+                console.log('恭喜，你已经到达了指定位置。');
+                // navigator.geolocation.clearWatch(id);
+            } else {
+                arr.innerHTML = "未到達";
+            }
+        }
+
+        if (window.DeviceMotionEvent) {
+            var speed = 20;
+            var x = y = z = lastX = lastY = lastZ = 0;
+            window.addEventListener('devicemotion', function() {
+                var acceleration = event.accelerationIncludingGravity;
+                x = acceleration.x;
+                y = acceleration.y;
+                if (Math.abs(x - lastX) > speed || Math.abs(y - lastY) > speed) {
+                    var t = document.getElementById('garden');
+                    if (t.style.visibility === 'hidden') {
+                        t.style.visibility = 'visible';
+                    }
+                }
+                lastX = x;
+                lastY = y;
+            }, false);
+        }
+
+        function error(err) {
+            console.warn('ERROR(' + err.code + '): ' + err.message);
+        }
+
+        id = navigator.geolocation.watchPosition(success, error, options);
+    </script>
+    <!-- <a-scene embedded arjs='sourceType: webcam;'>
+        <a-entity camera position="0 0 0"></a-entity>
+    </a-scene> -->
+</body>
+
+</html>
