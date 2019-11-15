@@ -14,7 +14,9 @@
 </head>
 
 <body style='margin : 0px; overflow: hidden;'>
-    <a-scene id="garden" style="visibility: hidden ;" look-controls="enabled:false;">
+    <a-scene id="garden" style="visibility: hidden ;" look-controls="enabled:false; touchEnabled:false; pointerLockEnabled:true">
+        <a-camera position="0 0 0" look-controls=" touchEnabled:false; "></a-camera>
+        <!--讓螢幕不能旋轉 -->
         <!-- <a-assets>
             <a-asset-item id="tree" src="./fox/scene.gltf"></a-asset-item>
         </a-assets>
@@ -24,7 +26,7 @@
         <a-assets>
             <a-asset-item id="bird" response-type="arraybuffer" src="https://cdn.glitch.com/1061d524-9d0f-4b25-97fd-48ebd0fce63c%2Fsceneglb.glb?1546534633849"></a-asset-item>
         </a-assets>
-        <a-entity gltf-model="#bird" position="0 0 -30" rotation="15 45 30" scale="0.05 0.05 0.05" animation-mixer="clip:Take 001; loop:2; timeScale: 1; crossFadeDuration: 1"></a-entity>
+        <a-entity gltf-model="#bird" position="0 0 -30" rotation="0 0 30" scale="0.03 0.03 0.03" animation-mixer="clip:Take 001; loop:2; timeScale: 1; crossFadeDuration: 1"></a-entity>
     </a-scene>
 
     <script>
