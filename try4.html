@@ -50,18 +50,20 @@
         if (location.protocol != 'https:') {
             location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
         }
+        var u = navigator.userAgent;
+        var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+        // alert('是否是iOS：' + isiOS);
+        // alert(typeof(isAndroid));
+        if (isiOS == true) {
+            var str = navigator.userAgent.toLowerCase();
+            var ver = str.match(/cpu iphone os (.*?) like mac os/);
+            var version = ver[1].replace(/_/g, ".");
+            var verArray = new Array();
+            var verArray = version.split(".");
+        }
 
-        var str = navigator.userAgent.toLowerCase();
-        var ver = str.match(/cpu iphone os (.*?) like mac os/);
-        var version = ver[1].replace(/_/g, ".");
-        var verArray = new Array();
-        var verArray = version.split(".");
-
-        if (verArray[0] == "13") {
-            $('#Modal').modal({
-                show: true
-            })
-        } else {
+        if (isAndroid) {
             if (window.DeviceMotionEvent) {
                 var speed = 20;
                 var x = y = z = lastX = lastY = lastZ = 0;
@@ -79,6 +81,28 @@
                     lastY = y;
                 }, false);
             }
+        } else if (verArray[0] == "12" || verArray[0] == "11") {
+            if (window.DeviceMotionEvent) {
+                var speed = 20;
+                var x = y = z = lastX = lastY = lastZ = 0;
+                window.addEventListener('devicemotion', function() {
+                    var acceleration = event.accelerationIncludingGravity;
+                    x = acceleration.x;
+                    y = acceleration.y;
+                    if (Math.abs(x - lastX) > speed || Math.abs(y - lastY) > speed) {
+                        var t = document.getElementById('garden');
+                        if (t.style.visibility === 'hidden') {
+                            t.style.visibility = 'visible';
+                        }
+                    }
+                    lastX = x;
+                    lastY = y;
+                }, false);
+            }
+        } else if (verArray[0] == "13") {
+            $('#Modal').modal({
+                show: true
+            })
         }
 
         function ios_13() {
