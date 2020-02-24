@@ -1,3 +1,7 @@
-aframe
-bootstrap
-jquery
+第三方套件
+1.aframe 
+  https://aframe.io/
+2.bootstrap
+  https://getbootstrap.com/
+3.jquery
+  https://jquery.com/
