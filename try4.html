@@ -38,9 +38,9 @@
         </div>
     </div>
     <!-- 引用aframe使用相機 並將id為garden標籤隱藏 -->
-    <a-scene id="garden" style="visibility: hidden ;" look-controls="enabled:false; touchEnabled:false; pointerLockEnabled:true">
+    <a-scene id="garden" style="visibility: hidden ;">
         <!-- touchEnabled:false 設定相機禁止利用滑動旋轉螢幕 -->
-        <a-camera position="0 0 0" look-controls=" touchEnabled:false; " spectator="true"></a-camera>
+        <a-camera position="0 0 0" look-controls="touchEnabled:false;"></a-camera>
         <!-- a-assest-item標籤匯入3D物件連結 gltf 或 glb檔-->
         <a-asset-item id="bird" response-type="arraybuffer" src="pic/bird.glb"></a-asset-item>
         <!-- 呼叫id為bird並設定3D物件角度方向大小以及動畫相關設定 -->
